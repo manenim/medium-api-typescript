@@ -40,24 +40,34 @@ const login = (req: Request, res: Response, next: NextFunction) => {
 
     passport.authenticate("local", (err: any, user: any, info: any) => {
         //@ts-ignore
-        req.session.isAuth = true
+        // req.session.isAuth = true
         if (!user) return res.status(401).json({ message: "username or password is not valid" })
         req.logIn(user, (err) => {
             if (err) {
                 console.log(err)
             }
-            console.log(user)
+            // console.log(user)
+            // const { password, ...other } = user
             return res.status(200).json({
                 message: "successfully logged in",
-                data: user,
+                data: {username: user.usernanme, email: user.email},
                 isAuth: req.isAuthenticated()
             })
         })
     })(req, res, next)
     // console.log(req.authInfo)
     // res.send('you are logged in')
-    console.log(req.session)
+    // console.log(req.session)
 }
 
-export default { register, login }
+const checkAuthStatus = (req: Request, res: Response, next: NextFunction) => {
+    console.log(req.isAuthenticated())
+    if (req.isAuthenticated()) {
+        res.status(200).json({user: req.user})
+    } else {
+        res.status(401).json({message: 'you are not authorized to access this resource'})
+    }
+}
+
+export default { register, login, checkAuthStatus }
 

@@ -28,7 +28,8 @@ const startServer = () => {
     app.use(express.json())
     app.use(express.urlencoded({ extended: false }));
     app.use(cors({
-    origin: 'http://127.0.0.1:5173', // Set the origin of your frontend application
+    // origin: 'http://127.0.0.1:5173', // Set the origin of your frontend application
+    origin: 'http://localhost:5173', // Set the origin of your frontend application
     credentials: true, // Allow credentials (cookies, authentication headers, etc.)
     }));
     app.use(sessionMiddleware)
@@ -38,7 +39,7 @@ const startServer = () => {
 
     app.get('/', (req: Request, res: Response) => {
         // @ts-ignore
-        req.session.isAuth = true
+        // req.session.isAuth = true
         console.log(req.session)
         res.send('hello again')
     })

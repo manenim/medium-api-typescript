@@ -28,7 +28,11 @@ passport.use(new LocalStrategy({
 
 
 passport.serializeUser((user: any, done) => {
-    done(null, user._id)
+    done(null, {
+      _id: user._id,
+      username: user.username,
+      email: user.email
+    })
 })
 
 passport.deserializeUser(async ( id:string, done: any) => {
